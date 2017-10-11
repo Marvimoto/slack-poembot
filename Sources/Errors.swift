@@ -5,4 +5,9 @@
 //  Created by Marvin Heller on 11.10.17.
 //
 
-import Foundation
+enum BotError: Swift.Error {
+    case missingConfig
+    case invalidResponse
+    case unableToLoadChannels
+}
+
