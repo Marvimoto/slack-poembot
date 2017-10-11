@@ -13,12 +13,9 @@ struct Poems {
     ]
     static func random() -> String {
         var randomNumber : Int
-        #if os(Linux)
-            srandom(UInt32(time(nil)))
-            randomNumber = UInt32(random() % poems.count - 1)
-        #else
+
             randomNumber = Int(arc4random_uniform(UInt32(poems.count - 1)))
-        #endif
+
         return poems[randomNumber]
     }
 }
