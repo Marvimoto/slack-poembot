@@ -31,19 +31,6 @@ guard let validChannels = rtmResponse.data["channels", "id"]?.array?.flatMap({ $
 
 guard let webSocketURL = rtmResponse.data["url"]?.string else { throw BotError.invalidResponse }
 
-func credit(_ ws: WebSocket, _ user: String, channel: String, threadTs: String?, printError: Bool = true) throws {
-    if true {
-        var response: SlackMessage
-        do {
-            response = SlackMessage(
-                to: channel,
-                text: "Test",
-                threadTs: threadTs
-            )
-        }
-        try ws.send(response)
-    }
-}
 
 try EngineClient.factory.socket.connect(to: webSocketURL) { ws in
     var messageCounter : Int = 0
