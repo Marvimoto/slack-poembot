@@ -23,6 +23,7 @@ let config = try Config(
 //config variables
 
 guard let token = config["bot-config", "token"]?.string else { throw BotError.missingConfig }
+print(token)
 
 //WebSocket Init
 let rtmResponse = try loadRealtimeApi(token: token)
