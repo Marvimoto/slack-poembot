@@ -14,7 +14,7 @@ struct Poems {
     static func random() -> String {
         var randomNumber : Int
 
-            randomNumber = Int(arc4random_uniform(UInt32(poems.count - 1)))
+            randomNumber = Int.random(min: 0, max: poems.count - 1)
 
         return poems[randomNumber]
     }
