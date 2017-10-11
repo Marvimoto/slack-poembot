@@ -15,6 +15,7 @@ let configDirectory = workingDirectory + "Config/"
 let config = try Config(
     prioritized: [
         .commandLine,
+        .directory(root: configDirectory + "secrets"),
         .directory(root: configDirectory + "production")
     ]
 )
