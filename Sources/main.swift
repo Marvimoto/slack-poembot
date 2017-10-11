@@ -28,14 +28,17 @@ print(token)
 //WebSocket Init
 let rtmResponse = try loadRealtimeApi(token: token)
 
-guard let validChannels = rtmResponse.data["channels", "id"]?.array?.flatMap({ $0.string }) else { throw BotError.unableToLoadChannels }
-
+//get WebSocket url from Slack
 guard let webSocketURL = rtmResponse.data["url"]?.string else { throw BotError.invalidResponse }
 
-
+//Connect to the WebSocket
 try EngineClient.factory.socket.connect(to: webSocketURL) { ws in
+    
+    //Initialize message counter
     var messageCounter : Int = 0
     print("Connected")
+    
+    //always do when a text (message, user leaves channel, ...) appears in presence of bot
     ws.onText = { ws, text in
         let last3Seconds = NSDate().timeIntervalSince1970 - 3
 
@@ -51,7 +54,6 @@ try EngineClient.factory.socket.connect(to: webSocketURL) { ws in
             }
         }
     }
-
 }
 
 print("Hello")
