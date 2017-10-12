@@ -25,6 +25,7 @@ let config = try Config(
 //config variables
 
 guard let token = config["bot-config", "token"]?.string else { throw BotError.missingConfig }
+guard let channel = config["bot-config", "channel"]?.string else { throw BotError.missingConfig }
 print(token)
 
 //WebSocket Init
@@ -46,13 +47,13 @@ try EngineClient.factory.socket.connect(to: webSocketURL) { ws in
 
         let event = try JSON(bytes: text.utf8.array)
         guard let ts = event["ts"].flatMap({ $0.string.flatMap({ Double($0) }) }) else { return }
-        if event["channel"] == "C43D1DN7Q" {
+        if event["channel"]?.string == channel {
             if event["type"] == "message" && ts >= last3Seconds  {
                 messageCounter += 1
                 if messageCounter % 10 == 0 {
                     if lastMessageSent <= NSDate().timeIntervalSince1970 - 30 {
                         lastMessageSent = NSDate().timeIntervalSince1970
-                        let response = SlackMessage(to: "C43D1DN7Q", text: Poems.random(), threadTs: nil)
+                        let response = SlackMessage(to: channel, text: Poems.random(), threadTs: nil)
                         try ws.send(response)
                     }
                 }
