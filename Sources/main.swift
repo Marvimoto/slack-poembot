@@ -53,7 +53,7 @@ try EngineClient.factory.socket.connect(to: webSocketURL) { ws in
                 if messageCounter % 10 == 0 {
                     if lastMessageSent <= NSDate().timeIntervalSince1970 - 30 {
                         lastMessageSent = NSDate().timeIntervalSince1970
-                        let response = SlackMessage(to: channel, text: Poems.random(), threadTs: nil)
+                        let response = SlackMessage(to: channel, text: Poems.randomPoem(), threadTs: nil)
                         try ws.send(response)
                     }
                 }
