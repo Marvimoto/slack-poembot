@@ -10,7 +10,7 @@ import Vapor
 import Foundation
 import TLS
 
-var lastMessageSent = NSDate().timeIntervalSince1970 - 30
+var lastMessageSent = NSDate().timeIntervalSince1970 - 600
 
 let configDirectory = workingDirectory + "Config/"
 
@@ -43,7 +43,7 @@ try EngineClient.factory.socket.connect(to: webSocketURL) { ws in
     
     //always do when a text (message, user leaves channel, ...) appears in presence of bot
     ws.onText = { ws, text in
-        let last3Seconds = NSDate().timeIntervalSince1970 - 3
+        let last3Seconds = NSDate().timeIntervalSince1970 - 600
 
         let event = try JSON(bytes: text.utf8.array)
         guard let ts = event["ts"].flatMap({ $0.string.flatMap({ Double($0) }) }) else { return }
