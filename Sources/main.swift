@@ -10,6 +10,8 @@ import Vapor
 import Foundation
 import TLS
 
+var lastMessageSent = NSDate().timeIntervalSince1970 - 30
+
 let configDirectory = workingDirectory + "Config/"
 
 let config = try Config(
@@ -47,9 +49,12 @@ try EngineClient.factory.socket.connect(to: webSocketURL) { ws in
         if event["channel"] == "C43D1DN7Q" {
             if event["type"] == "message" && ts >= last3Seconds  {
                 messageCounter += 1
-                if messageCounter % 5 == 0 {
-                    let response = SlackMessage(to: "C43D1DN7Q", text: Poems.random(), threadTs: nil)
-                    try ws.send(response)
+                if messageCounter % 10 == 0 {
+                    if lastMessageSent <= NSDate().timeIntervalSince1970 - 30 {
+                        lastMessageSent = NSDate().timeIntervalSince1970
+                        let response = SlackMessage(to: "C43D1DN7Q", text: Poems.random(), threadTs: nil)
+                        try ws.send(response)
+                    }
                 }
             }
         }
