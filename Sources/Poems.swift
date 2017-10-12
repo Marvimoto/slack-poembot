@@ -2,6 +2,7 @@
 import Foundation
 
 struct Poems {
+    static var lastRandomNumber = -1
     static let poems = [
         "Nico ist ein dicker Wicht, drum widme ich ihm das Gedicht.",
         "Marvin, der diesen Bot hier schrieb, den haben alle Leute lieb.",
@@ -17,12 +18,17 @@ struct Poems {
         "public class lean_guy {\npublic static void main(String[] args) {\n\nlong ago_lived_there_a_guy;\nfloat ed_he_accross_the_sky;\nboolean called_him_all_his_friends;\ncouse_he_was_as_lean_as_hell;\n\nchar ming_eyes_he_had_as_matched,\nbut_the; String was_still_attached;\nfinal float he_did_today;\nlong before_he_flew_away;\n\n}\n}",
         ":root {\n  --sweet: #000000;\n} \n\n.rose {\n  color: red;\n}\n\n.violett {\n  color: blue;\n}\n\n.sugar {\n  color: var(--sweet);\n}\n\n#you {\n  color: var(--sweet);\n}"
     ]
-    static func random() -> String {
-        var randomNumber : Int
-
-            randomNumber = Int.random(min: 0, max: poems.count - 1)
-
-        return poems[randomNumber]
+    static func randomInt() -> Int {
+        let randomNumber = Int.random(min: 0, max: poems.count - 1)
+        if randomNumber == lastRandomNumber {
+            return randomInt()
+        } else {
+            lastRandomNumber = randomNumber
+            return randomNumber
+        }
+    }
+    static func randomPoem() -> String {
+        return poems[randomInt()]
     }
 }
 
