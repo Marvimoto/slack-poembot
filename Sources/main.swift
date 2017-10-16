@@ -49,6 +49,10 @@ try EngineClient.factory.socket.connect(to: webSocketURL) { ws in
         guard let ts = event["ts"].flatMap({ $0.string.flatMap({ Double($0) }) }) else { return }
         if event["channel"]?.string == channel {
             if event["type"] == "message" && ts >= last3Seconds  {
+                if event["text"] == "Funktionierst du, Poem Bot?" {
+                    let response = SlackMessage(to: channel, text: "So wahr Nico dick ist", threadTs: nil)
+                    try ws.send(response)
+                }
                 messageCounter += 1
                 if messageCounter % 10 == 0 {
                     if lastMessageSent <= NSDate().timeIntervalSince1970 - 600 {
