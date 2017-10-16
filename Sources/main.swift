@@ -43,7 +43,7 @@ try EngineClient.factory.socket.connect(to: webSocketURL) { ws in
     
     //always do when a text (message, user leaves channel, ...) appears in presence of bot
     ws.onText = { ws, text in
-        let last3Seconds = NSDate().timeIntervalSince1970 - 600
+        let last3Seconds = NSDate().timeIntervalSince1970 - 3
 
         let event = try JSON(bytes: text.utf8.array)
         guard let ts = event["ts"].flatMap({ $0.string.flatMap({ Double($0) }) }) else { return }
@@ -51,7 +51,7 @@ try EngineClient.factory.socket.connect(to: webSocketURL) { ws in
             if event["type"] == "message" && ts >= last3Seconds  {
                 messageCounter += 1
                 if messageCounter % 10 == 0 {
-                    if lastMessageSent <= NSDate().timeIntervalSince1970 - 30 {
+                    if lastMessageSent <= NSDate().timeIntervalSince1970 - 600 {
                         lastMessageSent = NSDate().timeIntervalSince1970
                         let response = SlackMessage(to: channel, text: Poems.randomPoem(), threadTs: nil)
                         try ws.send(response)
