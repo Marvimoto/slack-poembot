@@ -50,7 +50,7 @@ try EngineClient.factory.socket.connect(to: webSocketURL) { ws in
         if event["channel"]?.string == channel {
             if event["type"] == "message" && ts >= last3Seconds  {
                 if event["text"] == "Funktionierst du, Poem Bot?" {
-                    let response = SlackMessage(to: channel, text: "So wahr Nico dick ist", threadTs: nil)
+                    let response = SlackMessage(to: channel, text: "Ich funktioniere, also bin ich.", threadTs: nil)
                     try ws.send(response)
                 }
                 messageCounter += 1
